@@ -520,6 +520,7 @@ int main(int argc, char *argv[])
     
   }
   if(argc != 3) {
+    sleep(5);
     cout << "Contents of server's buffer at momen: " << buff << endl;
   }
   sleep(5);
