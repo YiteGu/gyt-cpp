@@ -15,12 +15,9 @@ void Infiniband::init() {
   cq = ibv_create_cq(ctxt, cq_depth, NULL, NULL, 0); // get completion queue
 
 
-  const char *user_write_buff = "send message";
-  buffer_size = strlen(user_write_buff) + 1;
+  buffer_size = 1024;
   buff = (char*)malloc(buffer_size);
   memset(buff, 0, buffer_size);
-  strcpy(buff, user_write_buff);
-  cout << "ready to send_message: " << buff << endl;
   mr = ibv_reg_mr(pd, buff, buffer_size, IBV_ACCESS_REMOTE_WRITE | IBV_ACCESS_LOCAL_WRITE | IBV_ACCESS_REMOTE_READ); // register memory
 
   is_init = true;
