@@ -1,49 +1,57 @@
 This project use to test libibverbs API.
-1.
-g++ ibv_test.cc -libverbs
-2. server endpoint
-# ./a.out
-3. client endpoint
-# ./a.out 1 2
-server output:
-waiting client connection...
+1. build
+g++ ibv_test.cc Infiniband.cc -libverbs -o messenger -std=c++11
+
+2. server enable
+# ./messenger -s
+
+3. client enable
+./messenger -c <ip_addr>
+for example:
+./messenger -c 0.0.0.0
+
+4. output
+# ./messenger -s
+--------------------------
+Server Endpoint
+--------------------------
+waiting for client connection...
 TCP established
-rdma dev count: 1
-rdma dev name: mlx5_bond_0
-lid=0
 ready to send_message: send message
-register memory successed, detail info: offset=0x7fff6be36998 length=13 lkey=219211 rkey=219211
-create QP successed, QP number=5139
+RDMA dev count: 1
+RDMA dev name: mlx5_bond_0
+ib port num: 1
+local id: 0
+memory register info: offset=0x7fff353a0608 length=13 lkey=292967 rkey=292967
 successed modify QP state to init
-send msg done
-recv msg done
-peer_addr=0x7fff6be36690 peer_rkey=216382 peer_qpn=5138 peer_lid=0
-modify QP state to RTR done
-modify QP state to RTS done
+send SYNMsg done
+recv SYNMsg done
+transition to RTR state successfully.
+transition to RTS state successfully.
 post SR done
 completion was found in CQ with status 0x0
 Contents of server's buffer at momen: I am client
 
-client output:
+# ./messenger -c 10.138.11.44
+--------------------------
+Client Endpoint
+--------------------------
 TCP established
-rdma dev count: 1
-rdma dev name: mlx5_bond_0
-lid=0
 ready to send_message: send message
-register memory successed, detail info: offset=0x7ffe06e08028 length=13 lkey=216382 rkey=216382
-create QP successed, QP number=5138
+RDMA dev count: 1
+RDMA dev name: mlx5_bond_0
+ib port num: 1
+local id: 0
+memory register info: offset=0x7ffc07dc3698 length=13 lkey=302974 rkey=302974
 successed modify QP state to init
-send msg done
-recv msg done
-peer_addr=0x7ffe06e07d20 peer_rkey=219211 peer_qpn=5139 peer_lid=0
+send SYNMsg done
+recv SYNMsg done
 Receive Request was posted
-modify QP state to RTR done
-modify QP state to RTS done
+transition to RTR state successfully.
+transition to RTS state successfully.
 completion was found in CQ with status 0x0
-Message is: send message
 post SR done
 completion was found in CQ with status 0x0
-Contents of server's buffer: I am server
-Contents of client's buffer at momen: I am client
+get server's buffer context by client: I am server
 post SR done
 completion was found in CQ with status 0x0
