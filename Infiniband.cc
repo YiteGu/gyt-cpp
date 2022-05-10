@@ -3,24 +3,53 @@
 Infiniband::~Infiniband() {
   free(buff);
 }
-void Infiniband::init() {
+int Infiniband::init() {
   port_num = 1;
   cq_depth = 1;
   dev_list = ibv_get_device_list(&num_devices);
+  if(dev_list == nullptr || num_devices == 0) {
+    cout << "failed to get rdma device list" << endl;
+    return -1;
+  }
   device = dev_list[0]; //use fisrt device
   ctxt = ibv_open_device(device); // get rdma deives context
-  ibv_query_port(ctxt, port_num, &port_attr);
-  ibv_query_gid(ctxt, port_num, 0, &gid);
-  pd = ibv_alloc_pd(ctxt); // alloc protection domain
-  cq = ibv_create_cq(ctxt, cq_depth, NULL, NULL, 0); // get completion queue
+  if(ctxt == nullptr) {
+    cout << "open rdma device failed" << endl;
+    return -1;
+  }
+  int r = ibv_query_port(ctxt, port_num, &port_attr);
+  if(r == -1) {
+    cout << "query port failed" << endl;
+    return -1;
+  }
+  r = ibv_query_gid(ctxt, port_num, 0, &gid);
+  if(r) {
+   cout << "query gid failed" << endl;
+   return -1;
+  }
 
+  pd = ibv_alloc_pd(ctxt); // alloc protection domain
+  if(pd == nullptr) {
+    cout << "failed to allocate infiniband protection domain" << endl;
+    return -1;
+  }
+  cq = ibv_create_cq(ctxt, cq_depth, NULL, NULL, 0); // get completion queue
+  if(!cq) {
+    cout << "failed to create receive completion queue" << endl;
+    return -1;
+  }
 
   buffer_size = 1024;
   buff = (char*)malloc(buffer_size);
   memset(buff, 0, buffer_size);
   mr = ibv_reg_mr(pd, buff, buffer_size, IBV_ACCESS_REMOTE_WRITE | IBV_ACCESS_LOCAL_WRITE | IBV_ACCESS_REMOTE_READ); // register memory
+  if(mr == nullptr) {
+    cout << "failed to register memory" << endl;
+    return -1;
+  }
 
   is_init = true;
+  return 1;
 }
 
 int Infiniband::create_qp() {

@@ -38,7 +38,7 @@ struct IBSYNMsg {
 class Infiniband{
 public:
   ~Infiniband();
-  void init();
+  int init();
   int create_qp();
   int post_work_request(int opcode);
   int post_recv();

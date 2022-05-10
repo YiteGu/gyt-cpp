@@ -8,12 +8,10 @@ int main(int argc, char *argv[])
   int listen_fd;
   int cfd;
   int sd;
-  string server_ip;
   if(argc == 3) {
     cout << "--------------------------" << endl;
     cout << "Client Endpoint" << endl;
     cout << "--------------------------" << endl;
-    server_ip = argv[2];
   } else if(argc == 2) {
     cout << "--------------------------" << endl;
     cout << "Server Endpoint" << endl;
@@ -49,11 +47,15 @@ int main(int argc, char *argv[])
   cout << "TCP established" << endl;
 
   Infiniband ib;
-  ib.init();
+  struct IBSYNMsg recv_msg;
+  int r;
+  r = ib.init();
+  if(r < 0) {
+    cout << "ib init failed" << endl;
+    goto fail;
+  }
   ib.display();
   ib.create_qp();
-
-  struct IBSYNMsg recv_msg;
 
   ib.my_msg.addr = htonll((uintptr_t)ib.buff);
   ib.my_msg.rkey = htonl(ib.mr->rkey);
@@ -102,8 +104,9 @@ int main(int argc, char *argv[])
     cout << "Contents of server's buffer at momen: " << ib.buff << endl;
   }
   sleep(5);
+
+fail:
   ib.destroy();
-  
   ::close(sd);
   ::close(cfd);
   return 0;
