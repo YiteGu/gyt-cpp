@@ -57,13 +57,17 @@ int Infiniband::create_qp() {
   struct ibv_qp_init_attr qpia;  // ibv_qp_init_attr use to descrip QP attr
   memset(&qpia, 0, sizeof(qpia));
   qpia.qp_type = IBV_QPT_RC; // this is a reliable connection
-  qpia.sq_sig_all = 1;
+  qpia.sq_sig_all = 0; // only generate CQEs on requested WQEs
   qpia.send_cq = cq;
   qpia.recv_cq = cq;
-  qpia.cap.max_send_wr = 1;
-  qpia.cap.max_recv_wr = 1;
-  qpia.cap.max_send_sge = 1;
+
+  qpia.cap.max_send_wr = 1024; // max outstanding send requests 
+  qpia.cap.max_send_sge = 1;   // max send scatter-gather elements
+
+  qpia.cap.max_recv_wr = 4096;
   qpia.cap.max_recv_sge = 1;
+
+  qpia.cap.max_inline_data = 0; // max bytes of immediate data on send queue
 
   qp = ibv_create_qp(pd, &qpia);
   if(qp == NULL) {

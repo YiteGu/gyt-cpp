@@ -55,7 +55,10 @@ int main(int argc, char *argv[])
     goto fail;
   }
   ib.display();
-  ib.create_qp();
+  r = ib.create_qp();
+  if(r <= 0) {
+    goto fail;
+  }
 
   ib.my_msg.addr = htonll((uintptr_t)ib.buff);
   ib.my_msg.rkey = htonl(ib.mr->rkey);
