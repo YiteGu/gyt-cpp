@@ -254,11 +254,24 @@ int Infiniband::poll_cq() {
 }
 
 int Infiniband::destroy() {
-  ibv_destroy_qp(qp);
-  ibv_destroy_cq(cq);
-  ibv_dereg_mr(mr);
-  ibv_dealloc_pd(pd);
-  ibv_close_device(ctxt);
+  if(qp != nullptr) {
+    ibv_destroy_qp(qp);
+  }
+  if(cq != nullptr) {
+    ibv_destroy_cq(cq);
+  }
+  if(mr != nullptr) {
+    ibv_dereg_mr(mr);
+  }
+  if(pd != nullptr) {
+    ibv_dealloc_pd(pd);
+  }
+  if(ctxt != nullptr) {
+    ibv_close_device(ctxt);
+  }
+  if(dev_list != nullptr) {
+    ibv_free_device_list(dev_list);
+  }
 }
 
 int Infiniband::send_msg(int sock, int size, char *my_msg, char *peer_msg) {

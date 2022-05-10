@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
   }
   ib.display();
   r = ib.create_qp();
-  if(r <= 0) {
+  if(r < 0) {
     goto fail;
   }
 
