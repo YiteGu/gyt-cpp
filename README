@@ -1,6 +1,10 @@
 This project use to test libibverbs API.
 1. build
-g++ ibv_test.cc Infiniband.cc -libverbs -o messenger -std=c++11
+cd ibverebs_API_test
+mkdir build
+cd build
+cmake ../
+make
 
 2. server enable
 # ./messenger -s
