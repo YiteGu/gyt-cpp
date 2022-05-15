@@ -15,9 +15,9 @@ for example:
 ./messenger -c 0.0.0.0
 
 ## 4. output
- ./messenger -s
+./messenger -s
 --------------------------
-Server Endpoint
+ Server Endpoint
 --------------------------
 waiting for client connection...
 TCP established
@@ -36,9 +36,9 @@ post SR done
 completion was found in CQ with status 0x0
 Contents of server's buffer at momen: I am client
 
- ./messenger -c 10.138.11.44
+./messenger -c 10.138.11.44
 --------------------------
-Client Endpoint
+ Client Endpoint
 --------------------------
 TCP established
 ready to send_message: send message
