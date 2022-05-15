@@ -7,15 +7,14 @@
         make
 
 ## 2. server enable
- ./messenger -s
+        ./messenger -s
 
 ## 3. client enable
-./messenger -c <ip_addr>
+        ./messenger -c <ip_addr>
 for example:
-./messenger -c 0.0.0.0
+        ./messenger -c 0.0.0.0
 
 ## 4. output
-./messenger -s
 --------------------------
  Server Endpoint
 --------------------------
@@ -36,7 +35,6 @@ post SR done
 completion was found in CQ with status 0x0
 Contents of server's buffer at momen: I am client
 
-./messenger -c 10.138.11.44
 --------------------------
  Client Endpoint
 --------------------------
