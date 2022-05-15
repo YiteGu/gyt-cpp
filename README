@@ -1,21 +1,21 @@
-This project use to test libibverbs API.
-1. build
+# This project use to test libibverbs API.
+## 1. build
 cd ibverebs_API_test
 mkdir build
 cd build
 cmake ../
 make
 
-2. server enable
-# ./messenger -s
+## 2. server enable
+ ./messenger -s
 
-3. client enable
+## 3. client enable
 ./messenger -c <ip_addr>
 for example:
 ./messenger -c 0.0.0.0
 
-4. output
-# ./messenger -s
+## 4. output
+ ./messenger -s
 --------------------------
 Server Endpoint
 --------------------------
@@ -36,7 +36,7 @@ post SR done
 completion was found in CQ with status 0x0
 Contents of server's buffer at momen: I am client
 
-# ./messenger -c 10.138.11.44
+ ./messenger -c 10.138.11.44
 --------------------------
 Client Endpoint
 --------------------------
