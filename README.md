@@ -1,10 +1,10 @@
 # This project use to test libibverbs API.
 ## 1. build
-cd ibverebs_API_test
-mkdir build
-cd build
-cmake ../
-make
+        cd ibverebs_API_test
+        mkdir build
+        cd build
+        cmake ../
+        make
 
 ## 2. server enable
  ./messenger -s
